@@ -140,6 +140,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
     const style = values.style;
     const color = values.color;
     const quantity = Number(values.quantity);
+
     addPrompt({
       char,
       style,

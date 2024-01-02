@@ -6,6 +6,7 @@ import ThemeSwitcher from "./themeSwitcher";
 import { SignInButton, SignedIn, UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const NavBar = () => {
   const { isSignedIn } = useUser();
@@ -14,6 +15,7 @@ const NavBar = () => {
     <>
       <Logo />
       <div className="flex gap-4 items-center">
+        {isSignedIn ? <Link href="/collection">My collection</Link> : null}
         <ThemeSwitcher />
         {!isSignedIn ? (
           <Button>

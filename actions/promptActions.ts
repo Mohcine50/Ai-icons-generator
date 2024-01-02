@@ -18,6 +18,10 @@ export const fetchPrompts = async () => {
     where: {
       userId: userId!,
     },
+    select: {
+      images: true,
+      promptProperties: true,
+    },
   });
   return promtps;
 };
