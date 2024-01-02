@@ -17,7 +17,9 @@ const Generate = () => {
 
   return (
     <div
-      className={clsx(!showImages ? "flex justify-center" : "grid grid-cols-2")}
+      className={clsx(
+        !showImages ? "flex justify-center" : "grid grid-cols-2 justify-center"
+      )}
     >
       <FormGenerator
         setGeneratedImages={setGeneratedImages}
