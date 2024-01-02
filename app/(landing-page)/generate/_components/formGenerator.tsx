@@ -27,6 +27,7 @@ import {
 import { addPrompt, fetchPrompts } from "@/actions/promptActions";
 import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { TGeneratedImages } from "../page";
 
 const formSchema = z.object({
   character: z
@@ -114,7 +115,12 @@ const colors: string[] = [
   "chartreuse",
 ];
 
-const FormGenerator: FC = () => {
+type Props = {
+  setGeneratedImages: any;
+  setShowImages: any;
+};
+
+const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,14 +136,24 @@ const FormGenerator: FC = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-
+    const char = values.character;
+    const style = values.style;
+    const color = values.color;
+    const quantity = Number(values.quantity);
     addPrompt({
-      char: values.character,
-      style: values.style,
-      color: values.color,
-      quantity: Number(values.quantity),
+      char,
+      style,
+      color,
+      quantity,
     })
-      .then((data) => console.log(data))
+      .then((data) => {
+        const gImage: TGeneratedImages = {
+          prompt: { char, style, color, quantity },
+          images: data?.images,
+        };
+        setGeneratedImages(gImage);
+        setShowImages(true);
+      })
       .catch((Error) => {
         console.log(JSON.stringify(Error));
       })
@@ -147,7 +163,6 @@ const FormGenerator: FC = () => {
           description: "Your Icons Has been generated successfuly",
         });
       });
-    fetchPrompts().then((data) => console.log(data));
   }
 
   return (

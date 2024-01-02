@@ -40,9 +40,9 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
       data: { userId: userId!, promptPropertieId: promptProperties.id },
     });
 
-    const images = generateImages();
+    const images = await generateImages();
 
-    (await images).forEach(async (image) => {
+    images.forEach(async (image) => {
       await prisma.image.create({
         data: {
           promptId: prompt.id,
@@ -51,7 +51,7 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
       });
     });
 
-    return { message: "Prompt Generated Successfuly" };
+    return { message: "Prompt Generated Successfuly", images };
   } catch (error) {
     console.log(error);
   }
