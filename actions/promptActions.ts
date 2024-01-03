@@ -44,17 +44,20 @@ export const clearCollectionsAction = async () => {
 
 export const fetchPrompts = async () => {
   const { userId } = auth();
-
-  const promtps = await prisma.prompt.findMany({
-    where: {
-      userId: userId!,
-    },
-    select: {
-      images: true,
-      promptProperties: true,
-    },
-  });
-  return promtps;
+  try {
+    const promtps = await prisma.prompt.findMany({
+      where: {
+        userId: userId!,
+      },
+      select: {
+        images: true,
+        promptProperties: true,
+      },
+    });
+    return promtps;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const addPrompt = async (promptProperties: TPromptProperties) => {
@@ -88,7 +91,7 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
 
     return { message: "Prompt Generated Successfuly", images };
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

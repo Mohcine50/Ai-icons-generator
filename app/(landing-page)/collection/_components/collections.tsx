@@ -25,7 +25,8 @@ type collectionType = {
 };
 
 const Collections = async () => {
-  const collections: collectionType[] = await fetchPrompts();
+  const collections: collectionType[] =
+    (await fetchPrompts()) as collectionType[];
 
   return (
     <>
@@ -39,8 +40,25 @@ const Collections = async () => {
             <>
               <Accordion type="single" collapsible className="max-w-2xl w-full">
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>
-                    {prompt.promptProperties.character}
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex gap-2 items-center p-1">
+                      <p>
+                        <span className="text-xl font-bold">Character: </span>
+                        {prompt.promptProperties.character}
+                      </p>
+                      <p>
+                        <span className="text-xl font-bold">Style: </span>
+                        {prompt.promptProperties.style}
+                      </p>
+                      <p>
+                        <span className="text-xl font-bold">Color: </span>
+                        {prompt.promptProperties.color}
+                      </p>
+                      <p>
+                        <span className="text-xl font-bold">Quantity: </span>
+                        {prompt.promptProperties.quantity}
+                      </p>
+                    </div>
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex gap-3 flex-wrap">

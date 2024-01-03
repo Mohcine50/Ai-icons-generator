@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 const SignInMenu = async () => {
   // check if the user already exist in db if not add it on the db
   // and retrieve how many credits he has
-
   const user = await getConnectedUser();
   if (!user) return null;
 
