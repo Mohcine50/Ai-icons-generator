@@ -1,5 +1,4 @@
-"use client";
-import React, { use, useEffect } from "react";
+import React, { Suspense, use, useEffect } from "react";
 import PropTypes from "prop-types";
 import { TGeneratedImages } from "../page";
 import Image from "next/image";
