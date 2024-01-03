@@ -11,6 +11,27 @@ const openai = new OpenAI({
   organization: env.OPENAI_ORGINIZATION_KEY,
 });
 
+//Get user from db
+export const getConnectedUser = async () => {
+  const { userId } = auth();
+  try {
+    let user = await prisma.user.findUnique({
+      where: {
+        id: userId!,
+      },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: { id: userId! },
+      });
+    }
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const clearCollectionsAction = async () => {
   const { userId } = auth();
   const promtps = await prisma.prompt.deleteMany({

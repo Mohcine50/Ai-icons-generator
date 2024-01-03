@@ -1,28 +1,25 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Logo from "./logo";
 import ThemeSwitcher from "./themeSwitcher";
-import { SignInButton, SignedIn, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignedIn, UserButton, auth } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import SignInMenu from "./signInMenu";
 
 const NavBar = () => {
-  const { isSignedIn } = useUser();
+  const { user } = auth();
 
   return (
     <>
       <Logo />
       <div className="flex gap-4 items-center">
-        {isSignedIn ? (
-          <div className="flex gap-3 items-center">
-            <Link href="/collection">My collection</Link>
-            <Link href="/generate">Generate</Link>
-          </div>
+        {user !== null ? (
+          <Suspense>
+            <SignInMenu />
+          </Suspense>
         ) : null}
         <ThemeSwitcher />
-        {!isSignedIn ? (
+        {user === null ? (
           <Button>
             <SignInButton afterSignInUrl="/" />
           </Button>
