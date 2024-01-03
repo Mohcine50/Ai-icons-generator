@@ -15,7 +15,12 @@ const NavBar = () => {
     <>
       <Logo />
       <div className="flex gap-4 items-center">
-        {isSignedIn ? <Link href="/collection">My collection</Link> : null}
+        {isSignedIn ? (
+          <div className="flex gap-3 items-center">
+            <Link href="/collection">My collection</Link>
+            <Link href="/generate">Generate</Link>
+          </div>
+        ) : null}
         <ThemeSwitcher />
         {!isSignedIn ? (
           <Button>

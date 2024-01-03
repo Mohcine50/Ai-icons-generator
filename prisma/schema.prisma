@@ -12,7 +12,7 @@ datasource db {
 
 model Image {
   id       String @id @default(uuid())
-  prompt   Prompt @relation(fields: [promptId], references: [id])
+  prompt   Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
   promptId String
   imageUrl String
 }
@@ -20,7 +20,7 @@ model Image {
 model Prompt {
   id                String          @id @default(uuid())
   images            Image[]
-  promptProperties  PromptPropertie @relation(fields: [promptPropertieId], references: [id])
+  promptProperties  PromptPropertie @relation(fields: [promptPropertieId], references: [id], onDelete: Cascade)
   userId            String
   promptPropertieId String          @unique
 }

@@ -11,6 +11,16 @@ const openai = new OpenAI({
   organization: env.OPENAI_ORGINIZATION_KEY,
 });
 
+export const clearCollectionsAction = async () => {
+  const { userId } = auth();
+  const promtps = await prisma.prompt.deleteMany({
+    where: {
+      userId: userId!,
+    },
+  });
+  return promtps;
+};
+
 export const fetchPrompts = async () => {
   const { userId } = auth();
 
