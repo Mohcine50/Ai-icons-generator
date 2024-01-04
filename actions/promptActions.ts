@@ -56,7 +56,7 @@ export const fetchPrompts = async () => {
     });
     return promtps;
   } catch (error) {
-    console.error(error);
+    throw Error("Error while fetching your prompts");
   }
 };
 
@@ -66,6 +66,11 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
   const { userId } = auth();
 
   try {
+    const user = await prisma.user.findUnique({ where: { id: userId! } });
+
+    if (quantity > user?.credits!)
+      throw new Error("You don't have enough credits");
+
     const promptProperties = await prisma.promptPropertie.create({
       data: {
         character: char,
@@ -88,10 +93,17 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
         },
       });
     });
-
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: userId!,
+      },
+      data: {
+        credits: user?.credits! - quantity,
+      },
+    });
     return { message: "Prompt Generated Successfuly", images };
   } catch (error) {
-    console.error(error);
+    return { error: error.message as string };
   }
 };
 

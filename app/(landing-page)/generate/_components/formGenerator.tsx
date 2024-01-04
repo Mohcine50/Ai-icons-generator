@@ -28,6 +28,8 @@ import { addPrompt, fetchPrompts } from "@/actions/promptActions";
 import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { TGeneratedImages } from "../page";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 
 const formSchema = z.object({
   character: z
@@ -132,8 +134,9 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
   });
 
   const { toast } = useToast();
+  const route = useRouter();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const char = values.character;
@@ -141,13 +144,43 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
     const color = values.color;
     const quantity = Number(values.quantity);
 
-    addPrompt({
+    try {
+      const result = await addPrompt({
+        char,
+        style,
+        color,
+        quantity,
+      });
+      if (result.error) {
+        toast({
+          title: "Icons Generated",
+          description: result.error,
+        });
+      } else {
+        const gImage: TGeneratedImages = {
+          prompt: { char, style, color, quantity },
+          images: result.images,
+        };
+        setGeneratedImages(gImage);
+        setShowImages(true);
+        route.refresh();
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+      // Handle unexpected errors here
+    }
+
+    /* addPrompt({
       char,
       style,
       color,
       quantity,
     })
       .then((data) => {
+        toast({
+          title: "Icons Generated",
+          description: "Your Icons Has been generated successfuly",
+        });
         const gImage: TGeneratedImages = {
           prompt: { char, style, color, quantity },
           images: data?.images,
@@ -157,13 +190,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
       })
       .catch((Error) => {
         console.log(JSON.stringify(Error));
-      })
-      .finally(() => {
-        toast({
-          title: "Icons Generated",
-          description: "Your Icons Has been generated successfuly",
-        });
-      });
+      }); */
   }
 
   return (
