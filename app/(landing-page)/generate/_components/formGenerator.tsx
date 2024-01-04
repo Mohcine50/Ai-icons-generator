@@ -25,7 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { addPrompt, fetchPrompts } from "@/actions/promptActions";
-import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { TGeneratedImages } from "../page";
 import { useRouter } from "next/navigation";
@@ -134,7 +133,6 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
   });
 
   const { toast } = useToast();
-  const route = useRouter();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -155,6 +153,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
         toast({
           title: "Icons Generated",
           description: result.error,
+          variant: "destructive",
         });
       } else {
         const gImage: TGeneratedImages = {
@@ -163,34 +162,15 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
         };
         setGeneratedImages(gImage);
         setShowImages(true);
-        route.refresh();
-      }
-    } catch (error) {
-      console.error("An unexpected error occurred:", error);
-      // Handle unexpected errors here
-    }
-
-    /* addPrompt({
-      char,
-      style,
-      color,
-      quantity,
-    })
-      .then((data) => {
         toast({
           title: "Icons Generated",
           description: "Your Icons Has been generated successfuly",
+          variant: "default",
         });
-        const gImage: TGeneratedImages = {
-          prompt: { char, style, color, quantity },
-          images: data?.images,
-        };
-        setGeneratedImages(gImage);
-        setShowImages(true);
-      })
-      .catch((Error) => {
-        console.log(JSON.stringify(Error));
-      }); */
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+    }
   }
 
   return (

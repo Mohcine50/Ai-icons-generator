@@ -5,6 +5,7 @@ import { env } from "process";
 import OpenAI from "openai";
 import prisma from "@/lib/db";
 import { TPromptProperties } from "@/types/types";
+import { revalidatePath } from "next/cache";
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
@@ -39,6 +40,7 @@ export const clearCollectionsAction = async () => {
       userId: userId!,
     },
   });
+  revalidatePath("/collection");
   return promtps;
 };
 
