@@ -1,7 +1,7 @@
 import React, { use } from "react";
 import Link from "next/link";
 import { getConnectedUser } from "@/actions/promptActions";
-import { Badge } from "@/components/ui/badge";
+import CreditBadge from "./creditBadge";
 
 const SignInMenu = async () => {
   // check if the user already exist in db if not add it on the db
@@ -13,7 +13,7 @@ const SignInMenu = async () => {
     <div className="flex gap-3 items-center h-full">
       <Link href="/collection">My collection</Link>
       <Link href="/generate">Generate</Link>
-      <Badge variant="outline">{user.credits} Credit</Badge>
+      <CreditBadge credits={user?.credits} />
     </div>
   );
 };
