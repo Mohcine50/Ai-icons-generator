@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addPrompt, fetchPrompts } from "@/actions/promptActions";
+import { addPrompt, fetchPrompts } from "@/app/actions/promptActions";
 import { useToast } from "@/components/ui/use-toast";
 import { TGeneratedImages } from "../page";
 import { useRouter } from "next/navigation";

@@ -1,4 +1,7 @@
-import { clearCollectionsAction, fetchPrompts } from "@/actions/promptActions";
+import {
+  clearCollectionsAction,
+  fetchPrompts,
+} from "@/app/actions/promptActions";
 import {
   Accordion,
   AccordionContent,

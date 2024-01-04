@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import React from "react";
 import Image from "next/image";
-import { fetchPrompts } from "@/actions/promptActions";
+import { fetchPrompts } from "@/app/actions/promptActions";
 
 type image = {
   id: string;

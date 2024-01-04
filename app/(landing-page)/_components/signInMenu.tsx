@@ -1,6 +1,6 @@
-import React, { use } from "react";
+import React from "react";
 import Link from "next/link";
-import { getConnectedUser } from "@/actions/promptActions";
+import { getConnectedUser } from "@/app/actions/promptActions";
 import CreditBadge from "./creditBadge";
 
 const SignInMenu = async () => {
@@ -11,8 +11,8 @@ const SignInMenu = async () => {
 
   return (
     <div className="flex gap-3 items-center h-full">
-      <Link href="/collection">My collection</Link>
       <Link href="/generate">Generate</Link>
+      <Link href="/collection">My collection</Link>
       <CreditBadge credits={user?.credits} />
     </div>
   );

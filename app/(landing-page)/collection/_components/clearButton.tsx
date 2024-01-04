@@ -1,12 +1,10 @@
 "use client";
-import { clearCollectionsAction } from "@/actions/promptActions";
+import { clearCollectionsAction } from "@/app/actions/promptActions";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
 import React from "react";
 
 const ClearButton = () => {
-  //const route = useRouter();
   const { toast } = useToast();
 
   const clearCollecions = () => {

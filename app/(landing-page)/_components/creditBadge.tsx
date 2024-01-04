@@ -5,7 +5,7 @@ import React from "react";
 const CreditBadge = ({ credits }: { credits: number }) => {
   const buyCredits = () => {};
   return (
-    <Badge variant="default" onClick={buyCredits}>
+    <Badge variant="default" onClick={buyCredits} className="cursor-pointer">
       {credits} Credits
     </Badge>
   );
