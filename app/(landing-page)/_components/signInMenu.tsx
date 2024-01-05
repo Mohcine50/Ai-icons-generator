@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { getConnectedUser } from "@/app/actions/promptActions";
+import { getConnectedUser } from "@/app/actions/userActions";
 import CreditBadge from "./creditBadge";
 
 const SignInMenu = async () => {

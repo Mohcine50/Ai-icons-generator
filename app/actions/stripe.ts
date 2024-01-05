@@ -8,12 +8,18 @@ import { headers } from "next/headers";
 
 export async function createCheckoutSession({
   quantity,
+  userId,
 }: {
   quantity: number;
+  userId: string;
 }) {
   try {
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create({
+        metadata: {
+          userId,
+          credits: quantity,
+        },
         mode: "payment",
         submit_type: "pay",
         line_items: [
@@ -29,10 +35,9 @@ export async function createCheckoutSession({
           },
         ],
         success_url: `${headers().get("origin")}/generate`,
+        cancel_url: `${headers().get("origin")}/generate`,
       });
 
-    console.log(checkoutSession.url as string);
-    console.info(checkoutSession);
     return { url: checkoutSession.url };
   } catch (error) {
     console.error("Error creating checkout session:", error);

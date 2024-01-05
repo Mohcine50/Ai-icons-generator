@@ -13,16 +13,24 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
+import { string } from "zod";
 
 const CreditsModal = ({ credits }: { credits: number }) => {
+  const { userId } = useAuth();
+
   const [quantity, setQuantity] = useState<number>(10);
   const router = useRouter();
   const { toast } = useToast();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const result = await createCheckoutSession({ quantity });
+    const result = await createCheckoutSession({
+      quantity,
+      userId: userId as string,
+    });
     if (result.url) router.replace(result.url);
     else
       toast({
