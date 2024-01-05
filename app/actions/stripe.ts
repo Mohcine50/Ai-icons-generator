@@ -24,14 +24,15 @@ export async function createCheckoutSession({
         submit_type: "pay",
         line_items: [
           {
+            price: "price_1OVJytFWE5Ko82ghu12FiGG1",
             quantity,
-            price_data: {
+            /* price_data: {
               currency: "usd",
               product_data: {
                 name: "Credits",
               },
               unit_amount: 0.1 * quantity * 50,
-            },
+            }, */
           },
         ],
         success_url: `${headers().get("origin")}/generate`,

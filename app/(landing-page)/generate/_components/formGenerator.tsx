@@ -152,7 +152,8 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
       if (result.error) {
         toast({
           title: "Icons Generated",
-          description: result.error,
+          description:
+            "We couldn't generate your icons check your credits balance or try again",
           variant: "destructive",
         });
       } else {
