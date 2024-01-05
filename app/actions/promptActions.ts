@@ -84,7 +84,7 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
     });
     return { message: "Prompt Generated Successfuly", images };
   } catch (error) {
-    return { error: error.message as string };
+    return { error: error };
   }
 };
 
