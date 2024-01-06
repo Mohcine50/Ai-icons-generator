@@ -92,6 +92,7 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
         timeout: 20000, // default: 5000
       }
     );
+    revalidatePath("/generate");
     return { message: "Prompt Generated Successfuly", images };
   } catch (error) {
     let errorMessage = "Failed to generate your icons";
