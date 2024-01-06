@@ -29,6 +29,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { TGeneratedImages } from "../page";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
+import Loading from "../../collection/loading";
 
 const formSchema = z.object({
   character: z
@@ -137,6 +138,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setGenerating(true);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const char = values.character;
@@ -171,6 +173,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
           variant: "default",
         });
       }
+      setGenerating(false);
     } catch (error) {
       console.error("An unexpected error occurred:", error);
     }
@@ -333,8 +336,29 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="block w-full">
-              Submit
+            <Button
+              type="submit"
+              className={clsx("block w-full")}
+              disabled={generating}
+            >
+              {generating ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="animate-spin blok mx-auto"
+                >
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </Form>

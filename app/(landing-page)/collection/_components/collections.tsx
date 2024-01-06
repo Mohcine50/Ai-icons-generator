@@ -21,7 +21,7 @@ const Collections = async () => {
           No prompt to show on your Collection
         </h1>
       ) : (
-        collections.map((prompt: collectionType, index: number) => {
+        collections.reverse().map((prompt: collectionType, index: number) => {
           return (
             <>
               <Accordion type="single" collapsible className="max-w-3xl w-full">
