@@ -52,6 +52,9 @@ const CreditsModal = ({ credits }: { credits: number }) => {
           <DialogHeader>
             <DialogTitle>Buy Credits</DialogTitle>
             <DialogDescription>
+              <h1 className="font-semibold text-white text-center text-xl">
+                {quantity} Credits
+              </h1>
               <form onSubmit={handleSubmit}>
                 <Input
                   type="range"
@@ -63,9 +66,15 @@ const CreditsModal = ({ credits }: { credits: number }) => {
                     setQuantity(Number(e.currentTarget.value));
                   }}
                 />
-                <Button type="submit">Buy</Button>
+                <Button type="submit" className="mx-auto block">
+                  Buy
+                </Button>
               </form>
-              <DialogDescription>{quantity}</DialogDescription>
+              <DialogDescription>
+                <div className="flex flex-col items-center mt-3">
+                  <p>0.1$ for each credits</p>
+                </div>
+              </DialogDescription>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

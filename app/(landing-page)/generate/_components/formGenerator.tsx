@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   Form,
   FormControl,
@@ -122,6 +122,8 @@ type Props = {
 };
 
 const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
+  const [generating, setGenerating] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -317,7 +319,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {[...Array<number>(10).keys()].map((number) => (
+                      {[...Array<number>(5).keys()].map((number) => (
                         <SelectItem
                           value={(number + 1).toString()}
                           key={number}

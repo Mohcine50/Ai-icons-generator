@@ -7,22 +7,8 @@ import {
 import React from "react";
 import Image from "next/image";
 import { fetchPrompts } from "@/app/actions/promptActions";
-
-type image = {
-  id: string;
-  promptId: string;
-  imageUrl: string;
-};
-type collectionType = {
-  images: image[];
-  promptProperties: {
-    id: string;
-    character: string;
-    color: string;
-    style: string;
-    quantity: number;
-  };
-};
+import { collectionType, image } from "@/types/types";
+import PropmtItem from "./propmtItem";
 
 const Collections = async () => {
   const collections: collectionType[] =
@@ -38,27 +24,10 @@ const Collections = async () => {
         collections.map((prompt: collectionType, index: number) => {
           return (
             <>
-              <Accordion type="single" collapsible className="max-w-2xl w-full">
+              <Accordion type="single" collapsible className="max-w-3xl w-full">
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="hover:no-underline">
-                    <div className="flex gap-2 items-center p-1">
-                      <p>
-                        <span className="text-xl font-bold">Character: </span>
-                        {prompt.promptProperties.character}
-                      </p>
-                      <p>
-                        <span className="text-xl font-bold">Style: </span>
-                        {prompt.promptProperties.style}
-                      </p>
-                      <p>
-                        <span className="text-xl font-bold">Color: </span>
-                        {prompt.promptProperties.color}
-                      </p>
-                      <p>
-                        <span className="text-xl font-bold">Quantity: </span>
-                        {prompt.promptProperties.quantity}
-                      </p>
-                    </div>
+                  <AccordionTrigger className="hover:no-underline ">
+                    <PropmtItem prompt={prompt} />
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex gap-3 flex-wrap">

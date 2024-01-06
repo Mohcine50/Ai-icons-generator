@@ -6,3 +6,20 @@ export type TPromptProperties = {
   color: string;
   quantity: number;
 };
+
+export type image = {
+  id: string;
+  promptId: string;
+  imageUrl: string;
+};
+export type collectionType = {
+  id: string;
+  images: image[];
+  promptProperties: {
+    id: string;
+    character: string;
+    color: string;
+    style: string;
+    quantity: number;
+  };
+};
