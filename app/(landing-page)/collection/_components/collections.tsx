@@ -9,6 +9,7 @@ import Image from "next/image";
 import { fetchPrompts } from "@/app/actions/promptActions";
 import { collectionType, image } from "@/types/types";
 import PropmtItem from "./propmtItem";
+import DownloadImages from "./downloadImages";
 
 const Collections = async () => {
   const collections: collectionType[] =
@@ -44,6 +45,7 @@ const Collections = async () => {
                         );
                       })}
                     </div>
+                    <DownloadImages prompt={prompt} />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

@@ -16,7 +16,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
-import { string } from "zod";
 
 const CreditsModal = ({ credits }: { credits: number }) => {
   const { userId } = useAuth();

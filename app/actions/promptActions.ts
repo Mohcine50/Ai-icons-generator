@@ -4,8 +4,18 @@ import { auth } from "@clerk/nextjs";
 import { env } from "process";
 import OpenAI from "openai";
 import prisma from "@/lib/db";
-import { TPromptProperties } from "@/types/types";
+import { TPromptProperties, image } from "@/types/types";
 import { revalidatePath } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloudName: env.CLOUDNAME,
+  apiKey: env.API_KEY,
+  apiSecret: env.SECRET_KEY,
+  secure: true,
+});
+
+console.log(cloudinary)
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
@@ -47,6 +57,11 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
 
   const { userId } = auth();
 
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
   try {
     const images = await prisma.$transaction(
       async (tx) => {
@@ -70,13 +85,15 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
         const images = await generateImages({ char, style, quantity, color });
 
         images.forEach(async (image) => {
+          const result = await cloudinary.uploader.upload(image.url!, options);
           await tx.image.create({
             data: {
               promptId: prompt.id,
-              imageUrl: image.url!,
+              imageUrl: result?.url as string,
             },
           });
         });
+
         const updatedUser = await tx.user.update({
           where: {
             id: userId!,
@@ -136,4 +153,42 @@ const generateImages = async (promptProperties: TPromptProperties) => {
   });
   const images = responseImages.data;
   return images;
+};
+
+export const downloadImages = async (images: image[]) => {
+  const { default: JSZip } = await import("jszip");
+  const zip = new JSZip();
+  console.info(zip);
+  try {
+    const _downloadedImages = await exportBlops(images);
+    console.log("images", _downloadedImages);
+    return { _downloadedImages };
+  } catch (error) {
+    let errorMessage = "Failed to downloaded your icons";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return { error: errorMessage };
+  }
+};
+
+const exportBlops = async (images: image[]) => {
+  const blobs = await Promise.all(
+    images.map(async (image: image) => {
+      try {
+        const response = await fetch(image.imageUrl);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        return blob;
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    })
+  );
+
+  return blobs;
 };
