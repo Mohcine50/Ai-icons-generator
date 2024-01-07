@@ -29,7 +29,7 @@ const DownloadImages = ({ prompt }: props) => {
   const handleDownload = async (images: image[]) => {
     const result = await downloadImages(images);
     if (result.error) console.log(result.error);
-    else console.log(result._downloadedImages);
+    else console.log(result.imagesBlops);
   };
   return (
     <div>

@@ -6,16 +6,8 @@ import OpenAI from "openai";
 import prisma from "@/lib/db";
 import { TPromptProperties, image } from "@/types/types";
 import { revalidatePath } from "next/cache";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloudName: env.CLOUDNAME,
-  apiKey: env.API_KEY,
-  apiSecret: env.SECRET_KEY,
-  secure: true,
-});
-
-console.log(cloudinary)
+import cloudinary from "@/lib/cloudinary";
+import JSZip from "jszip";
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
@@ -57,11 +49,6 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
 
   const { userId } = auth();
 
-  const options = {
-    use_filename: true,
-    unique_filename: false,
-    overwrite: true,
-  };
   try {
     const images = await prisma.$transaction(
       async (tx) => {
@@ -84,12 +71,13 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
 
         const images = await generateImages({ char, style, quantity, color });
 
-        images.forEach(async (image) => {
-          const result = await cloudinary.uploader.upload(image.url!, options);
-          await tx.image.create({
+        const cloudinaryLinks = await uploadImagesToCloudinary(images);
+
+        cloudinaryLinks.forEach(async (link) => {
+          const uploadImage = await tx.image.create({
             data: {
               promptId: prompt.id,
-              imageUrl: result?.url as string,
+              imageUrl: link,
             },
           });
         });
@@ -118,6 +106,37 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
     }
     return { error: errorMessage };
   }
+};
+
+const uploadImagesToCloudinary = async (images: OpenAI.Images.Image[]) => {
+  let cloudinaryLinks: string[] = [];
+
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+    transformation: {
+      width: 800, // Set the desired width
+      height: 800, // Set the desired height
+      crop: "limit", // Adjust the cropping strategy as needed
+    },
+  };
+
+  for (const image of images) {
+    try {
+      const result = await cloudinary.uploader.upload(image.url!, options);
+      if (result) {
+        const url = result.url as string;
+        cloudinaryLinks.push(url);
+      } else {
+        throw new Error("We couldn't upload your images");
+      }
+    } catch (error) {
+      throw new Error("Error uploading images to Cloudinary");
+    }
+  }
+
+  return cloudinaryLinks;
 };
 
 export const deletePropmtById = async ({ id }: { id: string }) => {
@@ -156,13 +175,19 @@ const generateImages = async (promptProperties: TPromptProperties) => {
 };
 
 export const downloadImages = async (images: image[]) => {
-  const { default: JSZip } = await import("jszip");
   const zip = new JSZip();
-  console.info(zip);
   try {
-    const _downloadedImages = await exportBlops(images);
-    console.log("images", _downloadedImages);
-    return { _downloadedImages };
+    const imagesBlops = await exportBlops(images);
+    console.log("images", imagesBlops);
+    console.log("zipBlob loop begin");
+
+    imagesBlops.forEach((image, index) => {
+      const JSZipObject = zip.file(`image_${index}.png`, image as Blob);
+    });
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+
+    return { imagesBlops };
   } catch (error) {
     let errorMessage = "Failed to downloaded your icons";
     if (error instanceof Error) {
