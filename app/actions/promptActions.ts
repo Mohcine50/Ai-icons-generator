@@ -8,6 +8,7 @@ import { TPromptProperties, image } from "@/types/types";
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
 import JSZip from "jszip";
+import { saveAs } from "@/lib/fileSaver";
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
@@ -172,48 +173,4 @@ const generateImages = async (promptProperties: TPromptProperties) => {
   });
   const images = responseImages.data;
   return images;
-};
-
-export const downloadImages = async (images: image[]) => {
-  const zip = new JSZip();
-  try {
-    const imagesBlops = await exportBlops(images);
-    console.log("images", imagesBlops);
-    console.log("zipBlob loop begin");
-
-    imagesBlops.forEach((image, index) => {
-      const JSZipObject = zip.file(`image_${index}.png`, image as Blob);
-    });
-
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-
-    return { imagesBlops };
-  } catch (error) {
-    let errorMessage = "Failed to downloaded your icons";
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    return { error: errorMessage };
-  }
-};
-
-const exportBlops = async (images: image[]) => {
-  const blobs = await Promise.all(
-    images.map(async (image: image) => {
-      try {
-        const response = await fetch(image.imageUrl);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const blob = await response.blob();
-        return blob;
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    })
-  );
-
-  return blobs;
 };

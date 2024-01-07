@@ -1,9 +1,11 @@
 "use client";
 
-import { deletePropmtById, downloadImages } from "@/app/actions/promptActions";
+import { deletePropmtById } from "@/app/actions/promptActions";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import saveAs from "@/lib/fileSaver";
 import { collectionType, image } from "@/types/types";
+import Link from "next/link";
 import React from "react";
 
 type props = {
@@ -26,15 +28,18 @@ const DownloadImages = ({ prompt }: props) => {
         variant: "destructive",
       });
   };
-  const handleDownload = async (images: image[]) => {
-    const result = await downloadImages(images);
-    if (result.error) console.log(result.error);
-    else console.log(result.imagesBlops);
-  };
+
   return (
     <div>
-      <Button onClick={() => handleDownload(prompt.images)}>
-        Download images
+      <Button>
+        <a
+          href={`/api/archive?images=${encodeURIComponent(
+            JSON.stringify(prompt.images)
+          )}`}
+          target="_blank"
+        >
+          Download
+        </a>
       </Button>
 
       <Button
