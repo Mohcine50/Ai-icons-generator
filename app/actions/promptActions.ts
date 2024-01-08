@@ -100,7 +100,7 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
       }
     );
     revalidatePath("/generate");
-    return { message: "Prompt Generated Successfuly", images };
+    return { message: "Prompt Generated Successfully", images };
   } catch (error) {
     let errorMessage = "Failed to generate your icons";
     if (error instanceof Error) {
