@@ -212,7 +212,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
                                   : "hover:opacity-75 opacity-50"
                               )}
                               htmlFor={style.name}
-                              style={{ background: "white" }}
+                              style={{ background: "transparent" }}
                             >
                               <Image
                                 alt={style.name}
