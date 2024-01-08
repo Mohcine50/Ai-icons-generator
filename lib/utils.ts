@@ -9,57 +9,49 @@ export function cn(...inputs: ClassValue[]) {
 export const styles: TStyle[] = [
   {
     name: "Metallic",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/metallic.png",
   },
   {
     name: "Polygon",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/polygon.png",
   },
   {
     name: "Clay",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/clay.png",
   },
   {
     name: "Gradient",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/gradient.png",
   },
   {
     name: "Flat",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/flat.png",
   },
   {
     name: "Illustrated",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/illustrated.png",
   },
   {
     name: "Minimalistic",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/minimalistic.png",
   },
   {
     name: "Hand Drawn",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/hand-draw.png",
   },
   {
     name: "Water Color",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    image: "/styles/water-color.png",
   },
   {
-    name: "sticker",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
+    name: "Sticker",
+    image: "/styles/sticker.png",
   },
 ];
 
 export const styleData: Record<string, string> = {
+  Metallic:
+    "shiny metallic, futuristic, reflective surfaces, modern design, polished aesthetics",
   sticker:
     "sticker, vibrant sticker art, cute, playful, colorful, eye-catching",
   "Water Color": "watercolor, artistic, traditional, painting",

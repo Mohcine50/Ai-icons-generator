@@ -216,7 +216,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
                             >
                               <Image
                                 alt={style.name}
-                                src="/metallic.png"
+                                src={style.image}
                                 width={56}
                                 height={56}
                               />
