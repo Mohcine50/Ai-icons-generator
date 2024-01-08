@@ -95,8 +95,8 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
         return images;
       },
       {
-        maxWait: 50000, // default: 2000
-        timeout: 50000, // default: 5000
+        maxWait: 20000, // default: 2000
+        timeout: 40000, // default: 5000
       }
     );
     revalidatePath("/generate");
