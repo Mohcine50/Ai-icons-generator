@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
 import JSZip from "jszip";
 import { saveAs } from "@/lib/fileSaver";
+import { styleData } from "@/lib/utils";
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
@@ -94,8 +95,8 @@ export const addPrompt = async (promptProperties: TPromptProperties) => {
         return images;
       },
       {
-        maxWait: 5000, // default: 2000
-        timeout: 20000, // default: 5000
+        maxWait: 50000, // default: 2000
+        timeout: 50000, // default: 5000
       }
     );
     revalidatePath("/generate");
@@ -161,13 +162,13 @@ const generateImages = async (promptProperties: TPromptProperties) => {
 
   const responseImages = await openai.images.generate({
     prompt:
-      "Generate a captivating " +
-      style +
-      " material  icon featuring an " +
+      "app icon of " +
       char +
-      " character illuminated by soft light in a dynamic " +
+      ", colorized in " +
       color +
-      " hue. The scene should be set on a dark background to enhance contrast and drama, creating a visually striking effect. Employ a square icon design, ensuring meticulous attention to detail in the 3D rendering to achieve a polished and sophisticated appearance. The interplay of li",
+      ", " +
+      styleData[style] +
+      ", with dark background",
     n: quantity,
     size: "1024x1024",
   });

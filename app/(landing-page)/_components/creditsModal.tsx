@@ -51,7 +51,7 @@ const CreditsModal = ({ credits }: { credits: number }) => {
           <DialogHeader>
             <DialogTitle>Buy Credits</DialogTitle>
             <DialogDescription>
-              <h1 className="font-semibold text-white text-center text-xl">
+              <h1 className="font-semibold  text-center text-xl">
                 {quantity} Credits
               </h1>
               <form onSubmit={handleSubmit}>

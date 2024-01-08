@@ -30,6 +30,7 @@ import { TGeneratedImages } from "../page";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
 import Loading from "../../collection/loading";
+import { colors, styles } from "@/lib/utils";
 
 const formSchema = z.object({
   character: z
@@ -42,80 +43,6 @@ const formSchema = z.object({
   color: z.string(),
   quantity: z.string(),
 });
-
-const styles: TStyle[] = [
-  {
-    name: "Metallic",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Polygon",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Clay",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Gradient",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Flat",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Illustrated",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Minimalistic",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Hand Drawn",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-  {
-    name: "Water Color",
-    image:
-      "https://www.icongeneratorai.com/static/styles/dall-e-2/metallic.png",
-  },
-];
-
-const colors: string[] = [
-  "blue",
-  "red",
-  "orange",
-  "purple",
-  "yellow",
-  "pink",
-  "cyan",
-  "green",
-  "teal",
-  "black",
-  "lime",
-  "maroon",
-  "navy",
-  "gold",
-  "silver",
-  "indigo",
-  "magenta",
-  "olive",
-  "aqua",
-  "coral",
-  "violet",
-  "salmon",
-  "chartreuse",
-];
 
 type Props = {
   setGeneratedImages: any;
@@ -172,6 +99,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
           description: "Your Icons Has been generated successfuly",
           variant: "default",
         });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
       setGenerating(false);
     } catch (error) {
@@ -263,7 +191,7 @@ const FormGenerator = ({ setGeneratedImages, setShowImages }: Props) => {
                       defaultValue={field.value}
                       className="flex gap-2 flex-wrap space-y-1"
                     >
-                      {styles.map((style, idx) => {
+                      {styles.map((style: TStyle, idx) => {
                         return (
                           <FormItem
                             className="flex items-center space-x-3 space-y-0 flex-col"
