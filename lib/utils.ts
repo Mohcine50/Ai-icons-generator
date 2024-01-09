@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 export const styles: TStyle[] = [
   {
     name: "Metallic",
-    image: "/styles/metallic.png",
+    image: "/styles/Metallic.png",
   },
   {
     name: "Polygon",
