@@ -1,6 +1,5 @@
 import React from "react";
 import NavBar from "./_components/navbar";
-import { Toaster } from "@/components/ui/toaster";
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
