@@ -10,6 +10,7 @@ import { fetchPrompts } from "@/app/actions/promptActions";
 import { collectionType, image } from "@/types/types";
 import PropmtItem from "./propmtItem";
 import DownloadImages from "./downloadImages";
+import ImageSkeleton from "../../generate/_components/imageSkeleton";
 
 const Collections = async () => {
   const collections: collectionType[] =
@@ -32,17 +33,15 @@ const Collections = async () => {
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex gap-3 flex-wrap">
-                      {prompt.images.map((image: image) => {
+                      {prompt.images.map((image: image, idx) => {
                         return (
                           <div
                             key={image.id}
                             className="relative rounded-lg  border-[3px] border-white shadow-sm"
                           >
-                            <Image
+                            <ImageSkeleton
                               src={image.imageUrl as string}
-                              alt=""
-                              width="120"
-                              height={120}
+                              idx={idx}
                             />
                             <a
                               className="cursor-pointer"

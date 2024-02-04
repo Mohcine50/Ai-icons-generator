@@ -1,8 +1,8 @@
 import React, { Suspense, use, useEffect } from "react";
 import PropTypes from "prop-types";
 import { TGeneratedImages } from "../page";
-import Image from "next/image";
 import clsx from "clsx";
+import ImageSkeleton from "./imageSkeleton";
 
 type Props = {
   generatedImages: TGeneratedImages | undefined;
@@ -31,14 +31,7 @@ function GeneratedImages({ generatedImages }: Props) {
       <div className="flex gap-3">
         {images?.map((image, idx) => {
           return (
-            <Image
-              key={idx}
-              src={image?.url as string}
-              alt={idx.toString()}
-              width="120"
-              height={10}
-              className="rounded-lg  border-[3px] border-white shadow-sm"
-            />
+            <ImageSkeleton src={image.url as string} key={idx} idx={idx} />
           );
         })}
       </div>
