@@ -31,7 +31,12 @@ function GeneratedImages({ generatedImages }: Props) {
       <div className="flex gap-3">
         {images?.map((image, idx) => {
           return (
-            <ImageSkeleton src={image.url as string} key={idx} idx={idx} />
+            <div
+              key={idx}
+              className="rounded-lg  border-[3px] border-white shadow-sm overflow-hidden"
+            >
+              <ImageSkeleton src={image.url as string} idx={idx} />
+            </div>
           );
         })}
       </div>

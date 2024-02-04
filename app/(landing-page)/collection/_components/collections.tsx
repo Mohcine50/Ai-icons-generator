@@ -37,7 +37,7 @@ const Collections = async () => {
                         return (
                           <div
                             key={image.id}
-                            className="relative rounded-lg  border-[3px] border-white shadow-sm"
+                            className="relative rounded-lg  border-[3px] border-foreground shadow-sm overflow-hidden"
                           >
                             <ImageSkeleton
                               src={image.imageUrl as string}
